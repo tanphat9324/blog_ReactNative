@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import {Text,View,StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import BlogContext from '../context/BlogContext';
+import {Context} from '../context/BlogContext';
+import {Feather} from '@expo/vector-icons';
 
-const IndexScreen = () => {
-    const {data,addPost} = useContext(BlogContext);
+const IndexScreen = ({navigation}) => {
+    const {state,addPost,deletePost} = useContext(Context);
     return (
         <View>
             <Text>Index Screen</Text>
@@ -12,11 +13,18 @@ const IndexScreen = () => {
                 <Text>Add Post</Text>
             </TouchableOpacity>
             <FlatList
-            data={data}
+            data={state}
             keyExtractor={blogPosts=>blogPosts.title}
             renderItem={({item})=>{
                 return(
-                    <Text>{item.title}</Text>
+                    <View style={styles.container}>
+                        <TouchableOpacity onPress={()=>navigation.navigate('Show',{id:item.id})}>
+                        <Text>{item.title} #{item.id}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>deletePost(item.id)}>
+                        <Feather name="trash"/>
+                        </TouchableOpacity>
+                    </View>
                 )
             }}
             />
@@ -25,7 +33,10 @@ const IndexScreen = () => {
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        flexDirection:'row',
+        justifyContent:'space-between'
+    }
 })
 
 export default IndexScreen;
