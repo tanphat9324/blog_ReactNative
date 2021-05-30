@@ -9,9 +9,9 @@ const IndexScreen = ({navigation}) => {
         <View>
             <Text>Index Screen</Text>
             {/* <Text>{value}</Text> */}
-            <TouchableOpacity onPress={addPost}>
+            {/* <TouchableOpacity onPress={addPost}>
                 <Text>Add Post</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <FlatList
             data={state}
             keyExtractor={blogPosts=>blogPosts.title}
@@ -30,6 +30,14 @@ const IndexScreen = ({navigation}) => {
             />
         </View>
     )
+}
+
+IndexScreen.navigationOptions = ({navigation}) => {
+    return{
+        headerRight: <TouchableOpacity onPress={()=> navigation.navigate('Create')}>
+            <Feather name="plus" size={30}/>
+        </TouchableOpacity> 
+    }
 }
 
 const styles = StyleSheet.create({
